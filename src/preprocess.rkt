@@ -41,7 +41,7 @@
 ; as a result. `add-active-token` stores the association between the token
 ; and the corresponding function.
 (define/contract (add-active-token token action)
-  [-> string? (-> string? string?) any]
+  [string? (string? . -> . string?) . -> . any]
   (hash-set! active-tokens token action)
   (printf "Action bound to ~s\n" token))
 
@@ -51,5 +51,5 @@
 ; that starts immediately after the token, and the result of that function
 ; replaces the substring that starts with the token.
 (define/contract (process-string str)
-  [-> string? string?]
+  [string? . -> . string?]
   "Processed string!")
