@@ -54,4 +54,11 @@
 ; replaces the substring that starts with the token.
 (define/contract (process-string str)
   [string? . -> . string?]
-  "Processed string!")
+  (hash-map active-tokens
+    (λ (token action)
+      (for ([pos (reverse (regexp-match-positions* token str))])
+        (match pos
+          [(cons start end)
+           (set! str (string-replace str (substring str start)
+                                         (action (substring str end))))]))))
+  str)
