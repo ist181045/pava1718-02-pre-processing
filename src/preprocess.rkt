@@ -59,9 +59,12 @@
   [string? . -> . string?]
   (hash-map active-tokens
     (λ (token action)
-      (for ([pos (reverse (regexp-match-positions* token str))])
+      (do ([pos (regexp-match-positions token str)
+                (regexp-match-positions token str)])
+          ([false? pos])
         (match pos
-          [(cons start end)
-           (set! str (string-replace str (substring str start)
-                                         (action (substring str end))))]))))
+          [(list (cons start end))
+           (set! str (string-replace str
+                                     (substring str start)
+                                     (action (substring str end))))]))))
   str)
