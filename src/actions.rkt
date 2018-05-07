@@ -38,11 +38,11 @@
 ;   -> `" + (a) + " + " + b + " = " + (a + b) + ""`.
 (define/contract (interpolate str)
   [string? . -> . string?]
-  (match str
-    [(regexp #rx".*?\"")
-     (string-append "\""
-                    (regexp-replace* #rx"#{(.*?)}" str "\" + (\\1) + \""))]
-    [else str]))
+  (match (regexp-match-positions #rx".*?(?<![\\])\"" str)
+    [(list (cons start end))
+     (string-append "\"" (regexp-replace* #rx"#{(.*?)}" str
+                                          "\" + (\\1) + \"" start end))]
+    [else (string-append "#\"" str)]))
 
 ; Ignores every character in the string up until the first newline character,
 ; returning the rest, if it exists.
