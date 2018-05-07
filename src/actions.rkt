@@ -26,7 +26,7 @@
 
 ; Attempts to evaluate a given string, returning the evaluation's result as a
 ; string.
-(define (eval-string str)
+(define/contract (eval-string str)
   [string? . -> . string?]
   (call-with-input-string
    str
@@ -36,7 +36,7 @@
 
 ; Ignores every character in the string up until the first newline character,
 ; returning the rest, if it exists.
-(define (string-after-newline str)
+(define/contract (string-after-newline str)
   [string? . -> . string?]
   (match (regexp-match-positions "\n" str)
     [(list (cons start end)) (substring str end)]
