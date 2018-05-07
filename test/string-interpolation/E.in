@@ -1,0 +1,9 @@
+public class Foo {
+    public void foo(String[] args) {
+    	String s = #"1 ${a}";
+    	String x = #"2 #{a+b";
+    	String y = #"3 #[a+b]";
+    	String z = #"4 #(a+b)";
+    	String w = #"5 #}a+b{";
+    }
+}
