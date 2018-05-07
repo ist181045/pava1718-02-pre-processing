@@ -32,6 +32,18 @@
       (string-append (~a (eval (read in) (make-base-namespace)))
                      (port->string in)))))
 
+; Replaces interpolated constructs with concatenations of the expressions in
+; said constructs.
+; E.g, `#{a} + #{b} = #{a + b}"`
+;   -> `" + (a) + " + " + b + " = " + (a + b) + ""`.
+(define/contract (interpolate str)
+  [string? . -> . string?]
+  (match str
+    [(regexp #rx".*?\"")
+     (string-append "\""
+                    (regexp-replace* #rx"#{(.*?)}" str "\" + (\\1) + \""))]
+    [else str]))
+
 ; Ignores every character in the string up until the first newline character,
 ; returning the rest, if it exists.
 (define/contract (string-after-newline str)

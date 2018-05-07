@@ -38,7 +38,8 @@
 ; Hash holding registered active tokens and respective actions.
 (define active-tokens
   (make-hash (list (cons ";;" string-after-newline)
-                   (cons "//eval " eval-string))))
+                   (cons "//eval " eval-string)
+                   (cons "#\"" interpolate))))
 
 ; Takes an active token and a function that should be triggered when that
 ; token is found. This last function takes a `string` and returns a `string`
