@@ -24,10 +24,10 @@
 (require "actions.rkt")
 ; provisions
 (provide
-  ; macros
-  def-active-token
-  ;functions
-  add-active-token process-string)
+ ; macros
+ def-active-token
+ ;functions
+ add-active-token process-string)
 
 ; Takes an active token, a parameter list, and a body and that expands into an
 ; appropriate use of the function `add-active-token`.
@@ -57,14 +57,13 @@
 ; replaces the substring that starts with the token.
 (define/contract (process-string str)
   [string? . -> . string?]
-  (hash-map active-tokens
-    (λ (token action)
-      (do ([pos (regexp-match-positions token str)
-                (regexp-match-positions token str)])
-          ([false? pos])
-        (match pos
-          [(list (cons start end))
-           (set! str (string-replace str
-                                     (substring str start)
-                                     (action (substring str end))))]))))
-  str)
+  (define rx (regexp (string-join (hash-keys active-tokens) "|")))
+  (do ([pos (regexp-match-positions rx str)
+            (regexp-match-positions rx str)])
+    ([false? pos] str)
+    (match pos
+      [(list (cons start end))
+       (define action (hash-ref active-tokens (substring str start end)))
+       (set! str (string-replace str
+                                 (substring str start)
+                                 (action (substring str end))))])))
