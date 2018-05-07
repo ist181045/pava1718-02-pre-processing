@@ -58,3 +58,12 @@
     [(list s alias value)
      (regexp-replace* alias (substring str (string-length s)) value)]
     [else str]))
+
+; Takes an assignment to an (expectedly) simple `new` Java expression and return
+; it pre-prended with the type of the POJO being created.
+(define/contract (type-inference str)
+  [string? . -> . string?]
+  (match (regexp-match #px"\\s+.*?\\s*=\\s*new\\s+(.*?)\\(\\);" str)
+    [(list _ value)
+     (string-append value str)]
+    [else str]))
