@@ -51,3 +51,10 @@
   (match (regexp-match-positions "\n" str)
     [(list (cons start end)) (substring str end)]
     [else ""]))
+
+(define/contract (type-alias str)
+  [string? . -> . string?]
+  (match (regexp-match #px"\\s*(.*?)\\s*=\\s*(.*?);" str)
+    [(list s alias value)
+     (regexp-replace* alias (substring str (string-length s)) value)]
+    [else str]))
