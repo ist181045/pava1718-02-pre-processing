@@ -22,10 +22,12 @@
 #lang racket
 ; pre-defined actions
 (require "actions.rkt")
-; provided macros
-(provide def-active-token)
-; provided functions
-(provide add-active-token process-string)
+; provisions
+(provide
+  ; macros
+  def-active-token
+  ;functions
+  add-active-token process-string)
 
 ; Takes an active token, a parameter list, and a body and that expands into an
 ; appropriate use of the function `add-active-token`.
