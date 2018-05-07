@@ -4,3 +4,13 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Racket #
+*.rkt~
+*.rkt.bak
+\#*.rkt#
+\#*.rkt#*#
+*.dep
+*.zo
+
+compiled
