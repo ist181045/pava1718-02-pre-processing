@@ -20,9 +20,7 @@
 ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ;; SOFTWARE.
 #lang racket
-(provide
-  eval-string
-  string-after-newline)
+(provide (all-defined-out))
 
 ; Attempts to evaluate a given string, returning the evaluation's result as a
 ; string.
