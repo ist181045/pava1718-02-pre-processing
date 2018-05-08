@@ -55,8 +55,9 @@
 (define/contract (type-alias str)
   [string? . -> . string?]
   (match (regexp-match #px"\\s*(.*?)\\s*=\\s*(.*?);" str)
-    [(list s alias value)
-     (regexp-replace* alias (substring str (string-length s)) value)]
+    [(list all alias value)
+     (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
+                      (substring str (string-length all)) value)]
     [else str]))
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return

@@ -40,8 +40,7 @@
   (make-hash (list (cons ";;" string-after-newline)
                    (cons "//eval " eval-string)
                    (cons "#\"" interpolate)
-                   (cons "alias" type-alias)
-                   (cons "var" infer-java-type))))
+                   (cons "alias " type-alias)
 
 ; Takes an active token and a function that should be triggered when that
 ; token is found. This last function takes a `string` and returns a `string`
