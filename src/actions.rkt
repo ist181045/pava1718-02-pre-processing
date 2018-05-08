@@ -60,14 +60,18 @@
     [(list all alias value)
      (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
                       (substring str (string-length all)) value)]
-    [else (error "Malformed alias assignment!")]))
+    [else (string-append "alias " str)]))
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return
 ; it pre-prended with the type of the POJO being created.
 (define/contract (infer-java-type str)
   [string? . -> . string?]
-  (define px (pregexp ".*?\\s*=\\s*new\\s+([\\w$]+(?:<[\\w$<, >]*>)?).*?;"))
+  (define id "[\\w$]+") ; identifier
+  (define dia "<[\\w$<, >]*>") ; diamond (params)
+  (define px
+    (pregexp (string-append
+              "\\s*" id "\\s*=\\s*new\\s+(" id "(?:" dia ")?).*?;")))
   (match (regexp-match px str)
     [(list _ type)
      (string-append type str)]
-    [else (error "Malformed assignment using 'var'!")]))
+    [else (string-append "var " str)]))
