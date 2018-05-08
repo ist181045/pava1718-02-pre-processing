@@ -73,5 +73,5 @@
               "\\s*" id "\\s*=\\s*new\\s+(" id "(?:" dia ")?).*?;")))
   (match (regexp-match px str)
     [(list _ type)
-     (string-append " " type str)]
+     (string-append type " " str)]
     [else (string-append "var " str)]))
