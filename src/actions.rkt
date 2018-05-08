@@ -28,9 +28,9 @@
   [string? . -> . string?]
   (call-with-input-string
    str
-    (λ (in)
-      (string-append (~a (eval (read in) (make-base-namespace)))
-                     (port->string in)))))
+   (λ (in)
+     (string-append (~a (eval (read in) (make-base-namespace)))
+                    (port->string in)))))
 
 ; Replaces interpolated constructs with concatenations of the expressions in
 ; said constructs.
@@ -64,9 +64,11 @@
 ; it pre-prended with the type of the POJO being created.
 (define/contract (infer-java-type str)
   [string? . -> . string?]
-  (define inst-expr ".*?\\.\\s*new\\s+([\\w$])+(?:<[\\w$<, >]>)?")
-  (define px (pregexp (string-append "\\s+.*?\\s*=\\s*" inst-expr ".*?;")))
+  (define assign ".*?\\s*=\\s*") ; v =
+  (define new "(?:.*?\\s*\\.)*?\\s*new\\s+") ; Outer.Inner1.InnerN.new 
+  (define type-decl "[\\w$]+(?:<[\\w$<, >]*>)?") ; Type<a,b<c,d>>
+  (define px (pregexp (string-append "\\s+" assign new "(" type-decl ").*?;")))
   (match (regexp-match px str)
     [(list _ type)
      (string-append type str)]
-    [else str]))
+    [else (string-append "var " str)]))
