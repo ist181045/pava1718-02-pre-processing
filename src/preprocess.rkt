@@ -59,17 +59,19 @@
 ; replaces the substring that starts with the token.
 (define/contract (process-string str)
   [string? . -> . string?]
+  (define last 0)
   (define rx (regexp (string-join (hash-keys active-tokens) "|")))
-  (define last 0) ; Avoid processing same token twice
   (do ([pos (regexp-match-positions rx str)
             (regexp-match-positions rx str last)])
     ([false? pos] str)
     (match pos
       [(list (cons start end))
-       (define token (substring str start end))
-       (define action (hash-ref active-tokens token))
-       (define result (action (substring str end)))
+       (define action (hash-ref active-tokens (substring str start end)))
+       (define after (substring str end))
+       (define result (action after))
        (set! last start)
-       (or (and (string-prefix? result token)
+       ; if the string is the same after transform, skip it
+       (or (and (equal? result after)
                 (set! last (add1 last)))
+           ; else, replace it
            (set! str (string-replace str (substring str start) result)))])))

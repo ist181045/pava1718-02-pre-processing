@@ -42,7 +42,7 @@
     [(list (cons start end))
      (string-append "\"" (regexp-replace* #rx"#{(.*?)}" str
                                           "\" + (\\1) + \"" start end))]
-    [else (string-append "#\"" str)]))
+    [else str]))
 
 ; Ignores every character in the string up until the first newline character,
 ; returning the rest, if it exists.
@@ -60,18 +60,17 @@
     [(list all alias value)
      (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
                       (substring str (string-length all)) value)]
-    [else (string-append "alias " str)]))
+    [else str]))
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return
 ; it pre-prended with the type of the POJO being created.
 (define/contract (infer-java-type str)
   [string? . -> . string?]
   (define id "[\\w$]+") ; identifier
-  (define dia "<[\\w$<, >]*>") ; diamond (params)
   (define px
     (pregexp (string-append
-              "\\s*" id "\\s*=\\s*new\\s+(" id "(?:" dia ")?).*?;")))
+              "\\s*[\\w$]+\\s*=\\s*new\\s+([\\w$]+.*?)\\(.*?;")))
   (match (regexp-match px str)
     [(list _ type)
      (string-append type " " str)]
-    [else (string-append "var " str)]))
+    [else str]))
