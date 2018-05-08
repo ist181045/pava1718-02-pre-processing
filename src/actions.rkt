@@ -61,9 +61,11 @@
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return
 ; it pre-prended with the type of the POJO being created.
-(define/contract (type-inference str)
+(define/contract (infer-java-type str)
   [string? . -> . string?]
-  (match (regexp-match #px"\\s+.*?\\s*=\\s*new\\s+(.*?)\\(\\);" str)
-    [(list _ value)
-     (string-append value str)]
+  (define inst-expr ".*?\\.\\s*new\\s+([\\w$])+(?:<[\\w$<, >]>)?")
+  (define px (pregexp (string-append "\\s+.*?\\s*=\\s*" inst-expr ".*?;")))
+  (match (regexp-match px str)
+    [(list _ type)
+     (string-append type str)]
     [else str]))

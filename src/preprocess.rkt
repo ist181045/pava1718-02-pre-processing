@@ -41,7 +41,7 @@
                    (cons "//eval " eval-string)
                    (cons "#\"" interpolate)
                    (cons "alias" type-alias)
-                   (cons "var" type-inference))))
+                   (cons "var" infer-java-type))))
 
 ; Takes an active token and a function that should be triggered when that
 ; token is found. This last function takes a `string` and returns a `string`
