@@ -52,6 +52,8 @@
     [(list (cons start end)) (substring str end)]
     [else ""]))
 
+; Takes an alias assignment and replaces every occurrence of the alias with the
+; corresponding right value.
 (define/contract (type-alias str)
   [string? . -> . string?]
   (match (regexp-match #px"\\s*(.*?)\\s*=\\s*(.*?);" str)
