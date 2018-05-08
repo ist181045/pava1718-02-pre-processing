@@ -37,11 +37,11 @@
 
 ; Hash holding registered active tokens and respective actions.
 (define active-tokens
-  (make-hash (list (cons ";;" string-after-newline)
-                   (cons "//eval " eval-string)
-                   (cons "var" infer-java-type)
-                   (cons "#\"" interpolate)
-                   (cons "alias" type-alias))))
+  (make-hash (list (cons "//eval " eval-string)
+                   (cons ";;" string-after-newline)
+                   (cons "#\"" string-interpolation)
+                   (cons "alias" type-alias)
+                   (cons "var" type-inference))))
 
 ; Takes an active token and a function that should be triggered when that
 ; token is found. This last function takes a `string` and returns a `string`

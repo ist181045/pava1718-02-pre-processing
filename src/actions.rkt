@@ -36,7 +36,7 @@
 ; said constructs.
 ; E.g, `#{a} + #{b} = #{a + b}"`
 ;   -> `" + (a) + " + " + b + " = " + (a + b) + ""`.
-(define/contract (interpolate str)
+(define/contract (string-interpolation str)
   [string? . -> . string?]
   (match (regexp-match-positions #rx".*?(?<![\\])\"" str)
     [(list (cons start end))
@@ -64,7 +64,7 @@
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return
 ; it pre-prended with the type of the POJO being created.
-(define/contract (infer-java-type str)
+(define/contract (type-inference str)
   [string? . -> . string?]
   (match (regexp-match (pregexp "^\\s+[\\w$]+\\s*=\\s*new\\s+(.*?)\\(") str)
     [(list _ type)
