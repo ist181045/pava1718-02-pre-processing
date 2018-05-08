@@ -56,7 +56,7 @@
 ; corresponding right value.
 (define/contract (type-alias str)
   [string? . -> . string?]
-  (match (regexp-match #px"\\s*(.*?)\\s*=\\s*(.*?);" str)
+  (match (regexp-match #px"^\\s+(.*?)\\s*=\\s*(.*?);" str)
     [(list all alias value)
      (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
                       (substring str (string-length all)) value)]
@@ -66,11 +66,7 @@
 ; it pre-prended with the type of the POJO being created.
 (define/contract (infer-java-type str)
   [string? . -> . string?]
-  (define id "[\\w$]+") ; identifier
-  (define px
-    (pregexp (string-append
-              "\\s*[\\w$]+\\s*=\\s*new\\s+([\\w$]+.*?)\\(.*?;")))
-  (match (regexp-match px str)
+  (match (regexp-match (pregexp "^\\s+[\\w$]+\\s*=\\s*new\\s+(.*?)\\(") str)
     [(list _ type)
-     (string-append type " " str)]
+     (string-append type str)]
     [else str]))
