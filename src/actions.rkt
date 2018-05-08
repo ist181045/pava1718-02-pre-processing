@@ -38,10 +38,10 @@
 ;   -> `" + (a) + " + " + b + " = " + (a + b) + ""`.
 (define/contract (string-interpolation str)
   [string? . -> . string?]
-  (match (regexp-match-positions #rx".*?(?<![\\])\"" str)
-    [(list (cons start end))
+  (match (regexp-match-positions #rx"[^\\]\"" str)
+    [(list (cons _ end))
      (string-append "\"" (regexp-replace* #rx"#{(.*?)}" str
-                      "\" + (\\1) + \"" start end))]
+                      "\" + (\\1) + \"" 0 end))]
     [else (string-append "\"" str)]))
 
 ; Ignores every character in the string up until the first newline character,
