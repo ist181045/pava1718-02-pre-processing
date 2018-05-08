@@ -1,5 +1,5 @@
 public class Foo {
-    public void foo(String[] args) {
-    	String s = $"First ${a} #{a+b}";
-    }
+  public void foo(String[] args) {
+    System.out.println("" + (1+2) + "{2+3}");
+  }
 }

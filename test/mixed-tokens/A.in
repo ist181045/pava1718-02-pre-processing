@@ -1,5 +1,5 @@
 public class Foo {
-    public void foo(String[] args) {
-    	var s = new String(#"#{args[0]}");
-    }
+  public void foo(String[] args) {
+    var s = new String(#"#{args[0]}");
+  }
 }

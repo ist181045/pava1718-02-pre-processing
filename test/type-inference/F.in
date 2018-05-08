@@ -1,10 +1,13 @@
 public class Foo {
-    public static void main(String[] args) {
-		VAR x = new X();
-		Var x = new X();
-		vaR x = new X();
-		vAr x = new X();
-		vAR x = new X();
-		VAr x = new X();
-    }
+  public static void main(String[] args) {
+    var a= new G();
+    var b =new 	F();
+    var c=new E();
+    var		d=		new D();
+    var e =	
+        new C();
+    var	
+      f = new	B(); var	
+      g = new A()    ;
+  }
 }

@@ -1,6 +1,5 @@
-alias S 		= 
-String;
+alias S     = String;
 public class Foo {
-	public static S foo(S a, Integer b) {		
-	}
+  public static S foo(S a, Integer b) {    
+  }
 }
