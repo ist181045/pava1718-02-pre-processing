@@ -66,10 +66,7 @@
 ; it pre-prended with the type of the POJO being created.
 (define/contract (infer-java-type str)
   [string? . -> . string?]
-  (define assign ".*?\\s*=\\s*") ; v =
-  (define new "(?:.*?\\s*\\.)*?\\s*new\\s+") ; Outer.Inner1.InnerN.new 
-  (define type-decl "[\\w$]+(?:<[\\w$<, >]*>)?") ; Type<a,b<c,d>>
-  (define px (pregexp (string-append "\\s+" assign new "(" type-decl ").*?;")))
+  (define px (pregexp ".*?\\s*=\\s*new\\s+([\\w$]+(?:<[\\w$<, >]*>)?).*?;"))
   (match (regexp-match px str)
     [(list _ type)
      (string-append type str)]
