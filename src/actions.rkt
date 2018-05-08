@@ -60,7 +60,7 @@
     [(list all alias value)
      (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
                       (substring str (string-length all)) value)]
-    [else str]))
+    [else (error "Malformed alias assignment!")]))
 
 ; Takes an assignment to an (expectedly) simple `new` Java expression and return
 ; it pre-prended with the type of the POJO being created.
@@ -73,4 +73,4 @@
   (match (regexp-match px str)
     [(list _ type)
      (string-append type str)]
-    [else (string-append "var " str)]))
+    [else (error "Malformed assignment using 'var'!")]))
