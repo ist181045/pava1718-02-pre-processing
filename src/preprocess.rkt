@@ -60,12 +60,16 @@
 (define/contract (process-string str)
   [string? . -> . string?]
   (define rx (regexp (string-join (hash-keys active-tokens) "|")))
+  (define last 0) ; Avoid processing same token twice
   (do ([pos (regexp-match-positions rx str)
-            (regexp-match-positions rx str)])
+            (regexp-match-positions rx str last)])
     ([false? pos] str)
     (match pos
       [(list (cons start end))
-       (define action (hash-ref active-tokens (substring str start end)))
-       (set! str (string-replace str
-                                 (substring str start)
-                                 (action (substring str end))))])))
+       (define token (substring str start end))
+       (define action (hash-ref active-tokens token))
+       (define result (action (substring str end)))
+       (set! last start)
+       (or (and (string-prefix? result token)
+                (set! last (add1 last)))
+           (set! str (string-replace str (substring str start) result)))])))
