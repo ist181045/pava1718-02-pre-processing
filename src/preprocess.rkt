@@ -49,8 +49,7 @@
 ; and the corresponding function.
 (define/contract (add-active-token token action)
   [string? (string? . -> . string?) . -> . any]
-  (hash-set! active-tokens token action)
-  (printf "Action bound to ~s\n" token))
+  (hash-set! active-tokens token action))
 
 ; Responsible for triggering the active token actions, transforming the
 ; string until no more active tokens are found. To this end, whenever an
