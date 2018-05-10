@@ -56,7 +56,7 @@
 ; corresponding right value.
 (define/contract (type-alias str)
   [string? . -> . string?]
-  (match (regexp-match #px"^\\s+(.*?)\\s*=\\s*(.*?);" str)
+  (match (regexp-match #px"^\\s+([\\w$]+)\\s*=\\s*(.*?);" str)
     [(list all alias value)
      (regexp-replace* (pregexp (string-append "\\b" alias "\\b"))
                       (substring str (string-length all)) value)]
