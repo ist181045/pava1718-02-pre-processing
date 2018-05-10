@@ -32,6 +32,15 @@
      (string-append (~a (eval (read in) (make-base-namespace)))
                     (port->string in)))))
 
+; Takes a string that's a path to a file and inlines it in the file it's being
+; included in.
+(define/contract (include-macro str)
+  [string? . -> . string?]
+  (match (regexp-match #px"^\\s+\"(.*?[^\\\\])\"" str)
+    [(list all file)
+     (regexp-replace all str (file->string file))]
+    [else (error "Could not find file to be included")]))
+
 ; Replaces interpolated constructs with concatenations of the expressions in
 ; said constructs.
 ; E.g, `#{a} + #{b} = #{a + b}"`
