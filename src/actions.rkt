@@ -31,7 +31,7 @@
      (with-handlers ([exn:fail:filesystem?
                       (λ (e) (error '\#include "Could not include ~s~%  ~a"
                                     file (exn-message e)))])
-       (regexp-replace all str (file->string file)))]
+       (regexp-replace all str (file->string file #:mode 'text)))]
     [else (error '\#include "Malformed statement")]))
 
 ; Replaces interpolated constructs with concatenations of the expressions in
