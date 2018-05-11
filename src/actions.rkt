@@ -22,16 +22,6 @@
 #lang racket
 (provide (all-defined-out))
 
-; Attempts to evaluate a given string, returning the evaluation's result as a
-; string.
-(define/contract (eval-string str)
-  [string? . -> . string?]
-  (call-with-input-string
-   str
-   (λ (in)
-     (string-append (~a (eval (read in) (make-base-namespace)))
-                    (port->string in)))))
-
 ; Takes a string that's a path to a file and inlines it in the file it's being
 ; included in.
 (define/contract (include-macro str)
@@ -52,14 +42,6 @@
      (string-append "\"" (regexp-replace* #rx"#{(.*?)}" str
                       "\" + (\\1) + \"" 0 end))]
     [else (string-append "\"" str)]))
-
-; Ignores every character in the string up until the first newline character,
-; returning the rest, if it exists.
-(define/contract (string-after-newline str)
-  [string? . -> . string?]
-  (match (regexp-match-positions "\n" str)
-    [(list (cons start end)) (substring str end)]
-    [else ""]))
 
 ; Takes an alias assignment and replaces every occurrence of the alias with the
 ; corresponding right value.

@@ -37,9 +37,7 @@
 
 ; Hash holding registered active tokens and respective actions.
 (define active-tokens
-  (make-hash (list (cons "//eval " eval-string)
-                   (cons ";;" string-after-newline)
-                   (cons "#\"" string-interpolation)
+  (make-hash (list (cons "#\"" string-interpolation)
                    (cons "alias" type-alias)
                    (cons "var" type-inference))))
 
