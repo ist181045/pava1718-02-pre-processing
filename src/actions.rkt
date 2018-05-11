@@ -28,8 +28,11 @@
   [string? . -> . string?]
   (match (regexp-match #px"^\\s+\"(.*?[^\\\\])\"" str)
     [(list all file)
-     (regexp-replace all str (file->string file))]
-    [else (error "Could not find file to be included")]))
+     (with-handlers ([exn:fail:filesystem?
+                      (λ (e) (error '\#include "Could not include ~s~%  ~a"
+                                    file (exn-message e)))])
+       (regexp-replace all str (file->string file)))]
+    [else (error '\#include "Malformed statement")]))
 
 ; Replaces interpolated constructs with concatenations of the expressions in
 ; said constructs.
@@ -40,7 +43,7 @@
   (match (regexp-match-positions #rx"[^\\]\"" str)
     [(list (cons _ end))
      (string-append "\"" (regexp-replace* #rx"#{(.*?)}" str
-                      "\" + (\\1) + \"" 0 end))]
+                                          "\" + (\\1) + \"" 0 end))]
     [else (string-append "\"" str)]))
 
 ; Takes an alias assignment and replaces every occurrence of the alias with the
