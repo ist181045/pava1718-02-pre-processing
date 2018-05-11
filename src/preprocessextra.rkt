@@ -20,5 +20,5 @@
 ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ;; SOFTWARE.
 #lang racket
-(require "preprocess.rkt" "actions.rkt")
+(require "actions.rkt" "preprocess.rkt")
 (add-active-token "#include" include-macro)
